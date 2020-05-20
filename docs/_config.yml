@@ -1,0 +1,13 @@
+title : DreamLab
+
+author :
+  name : Anand Bhat
+  github : anand-bhat
+  twitter : _anandbhat
+
+production_url : https://anand-bhat.github.io/dreamlab/
+
+JB :
+  version : 0.3.0
+  BASE_PATH : https://anand-bhat.github.io/dreamlab/
+  ASSET_PATH : https://anand-bhat.github.io/dreamlab/assets

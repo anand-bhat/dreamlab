@@ -1,0 +1,28 @@
+---
+layout: page
+tagline: Projects
+tagline_min: Projects
+---
+<div>
+	Track the progress of various DreamLab projects. <a id="togglePageDescription" href="#">Details</a>
+	<div id="pageDescription" class="collapse">
+		<br>The progress of these projects is manually recorded every day in this <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vT5OvzJh_0Qgz6IQBjbwJxqqElxc3qBb38JUS7K-Kvt6moXBuAcb0j2LOMP1O09HcJZcFWs4CZTa2jM/pubhtml" rel="noopener" target="_blank">Google Sheets document</a>. This page (and the others that show project statistics) retrieve the latest content from this sheet.
+	</div>
+</div>
+<hr>
+<div>
+	<table id="projectSummaryTable" class="collapse">
+		<thead>
+			<tr>
+				<th class="nowrap" data-field="projectVal" data-visible="false">Project</th>
+				<th class="nowrap" data-field="project" data-sortable="true" data-sort-name="projectVal" data-width="1" data-width-unit="%">Project</th>
+				<th class="nowrap" data-field="progressVal" data-visible="false">Progress</th>
+				<th data-field="progress" data-sortable="true" data-sort-name="progressVal">Progress</th>
+				<th class="nowrap" data-field="daysToCompletionVal" data-visible="false">Estimated Days to Completion</th>
+				<th class="nowrap" data-field="daysToCompletion" data-sortable="true" data-sort-name="daysToCompletionVal" data-width="1" data-width-unit="%" data-title-tooltip="Days to complete the project estimated using a 7-day moving average">Estimated Days to Completion</th>
+				<th class="nowrap" data-field="completionDate" data-sortable="true" data-sort-name="daysToCompletionVal" data-width="1" data-width-unit="%" data-title-tooltip="Completion date estimated based on a 7-day average">Completion Date</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="projectSummaryTitle"></div>
+</div>
