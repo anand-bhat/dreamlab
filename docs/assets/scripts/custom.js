@@ -36,12 +36,13 @@ function getProgressBar(percentage, color) {
 	return `<div class="progress"><div class="progress-bar role="progressbar" style="width: ${percentage}%; background-color: ${color}" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">${percentage}%</div></div>`;
 }
 
-function projectDetailsChart(project, type, labels, values) {
+function projectDetailsChart(project, type, labels, values1, values2) {
 	'use strict';
 
 	var color = type === 'progress' ? '#9c2ca3' : '#ffa500';
 	var chartId = type === 'progress' ? 'projectDetailsProgressChart' : 'projectDetailsUsersChart';
-	var yLabel = type === 'progress' ? 'Progress (%)' : 'Number of participants';
+	var yLabel1 = type === 'progress' ? 'Overall Progress (%)' : 'Total number of participants';
+	var yLabel2 = type === 'progress' ? 'Increase in progress (%)' : 'Increase in number of participants';
 	var title = type === 'progress' ? 'Progress for Project: ' : 'Number of participants for Project: ';
 	var tooltipSuffix = type === 'progress' ? '%' : '';
 
@@ -49,13 +50,29 @@ function projectDetailsChart(project, type, labels, values) {
 		type: 'line',
 		data: {
 			labels: labels,
-			datasets: [{label: project, data: values, fill: false, backgroundColor: color, borderColor: color}]
+			datasets: [{
+					label: yLabel1,
+					data: values1,
+					fill: false,
+					backgroundColor: color,
+					borderColor: color,
+					yAxisID: 'yAxis1'
+				},
+				{
+					label: yLabel2,
+					data: values2,
+					fill: false,
+					backgroundColor: '#ff6384',
+					borderColor: '#ff6384',
+					yAxisID: 'yAxis2'
+				}
+			]
 		},
 		options: {
 			maintainAspectRatio: false,
-			legend: {
-				display: false,
-			},
+			//legend: {
+			//	display: true,
+			//},
 			scales: {
 				xAxes: [{
 					scaleLabel : {
@@ -64,9 +81,19 @@ function projectDetailsChart(project, type, labels, values) {
 					}
 				}],
 				yAxes: [{
+					id: 'yAxis1',
+					position: 'left',
 					scaleLabel : {
 						display: true,
-						labelString: yLabel
+						labelString: yLabel1
+					}
+				},
+				{
+					id: 'yAxis2',
+					position: 'right',
+					scaleLabel : {
+						display: true,
+						labelString: yLabel2
 					}
 				}]
 			},
@@ -152,14 +179,24 @@ function projectDetails() {
 			return e.gsx$completed.$t.replace('%','');
 		});
 
+		// Change in Progress
+		var changeInProgress = data.feed.entry.map(function (e) {
+			return e.gsx$changeincompletion.$t.replace('%','');
+		});
+
 		// Users
 		var users = data.feed.entry.map(function (e) {
 			return e.gsx$totalusers.$t;
 		});
 
+		// Change in Users
+		var changeInUsers = data.feed.entry.map(function (e) {
+			return e.gsx$changeinusers.$t;
+		});
+
 		// Draw charts
-		projectDetailsChart(project, 'progress', labels, progress);
-		projectDetailsChart(project, 'users', labels, users);
+		projectDetailsChart(project, 'progress', labels, progress, changeInProgress);
+		projectDetailsChart(project, 'users', labels, users, changeInUsers);
 		$('#projectDetailsTitle').html('Progress and participation rates for project ' + project + '.');
 	})
 	.fail(function(data) {
