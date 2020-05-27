@@ -130,11 +130,13 @@ function projects() {
 	.done(function(data) {
 		var dataRows = [];
 		var progress = 0.0;
+		var weeklyprogress = '';
 		var colorClassIndex = '';
 		$.each(data.feed.entry, function(index, row) {
 			progress = row.gsx$progress.$t.replace('%', '');
+			weeklyprogress = row.gsx$daytotalchange.$t;
 			colorClassIndex = Math.max(0, Math.floor((30 * progress) / 100) - 1);
-			dataRows[index] = { projectVal: row.gsx$project.$t, project: projectDetailsLink(row.gsx$project.$t, row.gsx$sheetindex.$t), progressVal: progress, progress: getProgressBar(progress, colorClass[colorClassIndex]), daysToCompletionVal: row.gsx$estimateddaystocompletion.$t, daysToCompletion: row.gsx$estimatedcompletion.$t, completionDate: row.gsx$estimatedcompletiondate.$t, lastUpdated: row.gsx$lastupdated.$t};
+			dataRows[index] = { projectVal: row.gsx$project.$t, project: projectDetailsLink(row.gsx$project.$t, row.gsx$sheetindex.$t), progressVal: progress, progress: getProgressBar(progress, colorClass[colorClassIndex]), weeklyprogressVal: weeklyprogress.replace('%', ''), weeklyprogress: weeklyprogress, daysToCompletionVal: row.gsx$estimateddaystocompletion.$t, daysToCompletion: row.gsx$estimatedcompletion.$t, completionDate: row.gsx$estimatedcompletiondate.$t, lastUpdated: row.gsx$lastupdated.$t};
 		});
 		$('#projectSummaryTable').bootstrapTable({data: dataRows, formatNoMatches: function () {return 'No data found.';}});
 		$('#projectSummaryTable').show();
