@@ -70,9 +70,6 @@ function projectDetailsChart(project, type, labels, values1, values2) {
 		},
 		options: {
 			maintainAspectRatio: false,
-			//legend: {
-			//	display: true,
-			//},
 			scales: {
 				xAxes: [{
 					scaleLabel : {
