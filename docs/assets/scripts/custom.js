@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const colorClass = {
   0: '#FF0000',
   1: '#FF1100',
