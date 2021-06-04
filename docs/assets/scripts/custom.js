@@ -175,9 +175,19 @@ function projectDetails() {
     return;
   }
 
+  let days = urlParams.get('days');
+  if (!days) {
+    days = 45;
+  }
+  if (!Number.isInteger(parseInt(days, 10))) {
+    alert('Non numeric value for days. Using default (45)');
+    days = 45;
+  }
+
   $.getJSON(datasourceLink(projectId))
     .done((data) => {
       const labels = data.feed.entry.map((e) => e.gsx$date.$t);
+      days = Math.min(Math.max(1, days), labels.length);
 
       // Progress
       const progress = data.feed.entry.map((e) => e.gsx$completed.$t.replace('%', ''));
@@ -192,8 +202,8 @@ function projectDetails() {
       const changeInUsers = data.feed.entry.map((e) => e.gsx$changeinusers.$t);
 
       // Draw charts
-      projectDetailsChart(project, 'progress', labels, progress, changeInProgress);
-      projectDetailsChart(project, 'users', labels, users, changeInUsers);
+      projectDetailsChart(project, 'progress', labels.slice(-days), progress.slice(-days), changeInProgress.slice(-days));
+      projectDetailsChart(project, 'users', labels.slice(-days), users.slice(-days), changeInUsers.slice(-days));
       $('#projectDetailsTitle').html(`Progress and participation rates for project ${project}.`);
     })
     .fail(() => {
